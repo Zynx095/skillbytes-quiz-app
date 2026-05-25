@@ -16,7 +16,7 @@ app.add_middleware(
 
         "http://localhost:5173",
 
-        "https://skillbytes-quiz-app.vercel.app"
+        "https://skillbytes-quiz-app.vercel.app/"
     ],
 
     allow_credentials=True,
