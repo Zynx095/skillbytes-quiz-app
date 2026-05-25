@@ -39,31 +39,55 @@ function ResultPage() {
 
         <div
             style={{
-                padding: "40px"
+                minHeight: "100vh",
+                backgroundColor: "#ece5dd",
+                padding: "20px"
             }}
         >
 
-            <h1>
-                Quiz Finished
-            </h1>
+            <div
+                style={{
+                    backgroundColor: "#075E54",
+                    color: "white",
+                    padding: "15px",
+                    borderRadius: "10px",
+                    marginBottom: "20px"
+                }}
+            >
 
-            <h2>
-                Correct Answers:
-                {" "}
-                {result.correct_answers}
-            </h2>
+                <h2>
+                    Quiz Results
+                </h2>
 
-            <h2>
-                Total Questions:
-                {" "}
-                {result.total_questions}
-            </h2>
+            </div>
 
-            <h2>
-                Score:
-                {" "}
-                {result.score_percentage}%
-            </h2>
+            <div
+                style={{
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "12px"
+                }}
+            >
+
+                <h2>
+                    Correct Answers:
+                    {" "}
+                    {result.correct_answers}
+                </h2>
+
+                <h2>
+                    Total Questions:
+                    {" "}
+                    {result.total_questions}
+                </h2>
+
+                <h2>
+                    Score:
+                    {" "}
+                    {result.score_percentage.toFixed(2)}%
+                </h2>
+
+            </div>
 
         </div>
     );

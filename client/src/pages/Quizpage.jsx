@@ -39,14 +39,9 @@ function QuizPage() {
         );
     }
 
-    async function handleNext() {
+    async function handleOptionClick(option) {
 
-        if (!selectedOption) {
-
-            alert("Please select an option");
-
-            return;
-        }
+        setSelectedOption(option);
 
         const currentQuestion =
             questions[currentIndex];
@@ -57,31 +52,35 @@ function QuizPage() {
 
             question_id: currentQuestion._id,
 
-            selected_option: selectedOption,
+            selected_option: option,
 
             shown_at: shownAt
         });
 
-        setSelectedOption("");
+        setTimeout(() => {
 
-        if (
-            currentIndex + 1 >= questions.length
-        ) {
+            if (
+                currentIndex + 1 >= questions.length
+            ) {
 
-            navigate(
-                `/result?session_id=${sessionId}`
+                navigate(
+                    `/result?session_id=${sessionId}`
+                );
+
+                return;
+            }
+
+            setShownAt(
+                new Date().toISOString()
             );
 
-            return;
-        }
+            setSelectedOption("");
 
-        setShownAt(
-            new Date().toISOString()
-        );
+            setCurrentIndex(
+                currentIndex + 1
+            );
 
-        setCurrentIndex(
-            currentIndex + 1
-        );
+        }, 1000);
     }
 
     if (questions.length === 0) {
@@ -97,12 +96,18 @@ function QuizPage() {
         <div
             style={{
                 minHeight: "100vh",
-                backgroundColor: "#ece5dd",
-                padding: "20px"
+                backgroundImage:
+                    "url('https://i.imgur.com/ZXBtVw7.png')",
+
+                backgroundSize: "cover",
+
+                padding: "20px",
+
+                fontFamily: "Arial"
             }}
         >
 
-            {/* HEADER */}
+            {/* TOP BAR */}
 
             <div
                 style={{
@@ -110,128 +115,168 @@ function QuizPage() {
                     color: "white",
                     padding: "15px",
                     borderRadius: "10px",
-                    marginBottom: "20px"
+                    marginBottom: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px"
                 }}
             >
 
-                <h2>
-                    SkillBytes Quiz
-                </h2>
+                <div
+                    style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        backgroundColor: "white"
+                    }}
+                />
+
+                <div>
+
+                    <h3
+                        style={{
+                            margin: 0
+                        }}
+                    >
+                        SkillBytes
+                    </h3>
+
+                    <small>
+                        Quiz Bot
+                    </small>
+
+                </div>
 
             </div>
-
-            {/* QUESTION COUNT */}
-
-            <h3>
-                Question {currentIndex + 1}
-                {" / "}
-                {questions.length}
-            </h3>
 
             {/* SUBJECT */}
 
-            <h4>
-                Subject:
+            <div
+                style={{
+                    backgroundColor: "white",
+                    padding: "12px",
+                    borderRadius: "12px",
+                    maxWidth: "350px",
+                    marginBottom: "10px"
+                }}
+            >
+
+                <strong>
+                    Subject:
+                </strong>
+
                 {" "}
+
                 {currentQuestion.subject}
-            </h4>
 
-            {/* CHAPTER */}
+                <br />
 
-            <h4>
-                Chapter:
+                <strong>
+                    Chapter:
+                </strong>
+
                 {" "}
-                {currentQuestion.chapter}
-            </h4>
 
-            {/* QUESTION BOX */}
+                {currentQuestion.chapter}
+
+            </div>
+
+            {/* BOT QUESTION */}
 
             <div
                 style={{
-                    backgroundColor: "#DCF8C6",
-                    padding: "20px",
-                    borderRadius: "15px",
-                    maxWidth: "500px",
-                    marginTop: "20px",
+                    backgroundColor: "white",
+                    padding: "15px",
+                    borderRadius: "12px",
+                    maxWidth: "350px",
                     marginBottom: "20px"
                 }}
             >
 
-                <h2>
+                <h3>
                     {currentQuestion.question}
-                </h2>
+                </h3>
 
             </div>
+
+            {/* USER SELECTED MESSAGE */}
+
+            {
+
+                selectedOption && (
+
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-end"
+                        }}
+                    >
+
+                        <div
+                            style={{
+                                backgroundColor: "#DCF8C6",
+                                padding: "12px",
+                                borderRadius: "12px",
+                                maxWidth: "250px",
+                                marginBottom: "20px"
+                            }}
+                        >
+
+                            {selectedOption}
+
+                        </div>
+
+                    </div>
+                )
+            }
 
             {/* OPTIONS */}
 
             {
 
-                currentQuestion.options.map(
-                    (option) => (
+                !selectedOption && (
 
-                        <button
+                    currentQuestion.options.map(
+                        (option) => (
 
-                            key={option}
+                            <button
 
-                            onClick={() =>
-                                setSelectedOption(option)
-                            }
+                                key={option}
 
-                            style={{
-                                display: "block",
-                                width: "300px",
-                                marginTop: "10px",
-                                padding: "12px",
-                                borderRadius: "10px",
-                                border: "none",
-                                cursor: "pointer",
+                                onClick={() =>
+                                    handleOptionClick(option)
+                                }
 
-                                backgroundColor:
+                                style={{
+                                    display: "block",
 
-                                    selectedOption === option
+                                    width: "100%",
 
-                                        ? "#25D366"
+                                    maxWidth: "350px",
 
-                                        : "white",
+                                    padding: "12px",
 
-                                color:
+                                    marginBottom: "10px",
 
-                                    selectedOption === option
+                                    borderRadius: "12px",
 
-                                        ? "white"
+                                    border: "none",
 
-                                        : "black"
-                            }}
-                        >
+                                    cursor: "pointer",
 
-                            {option}
+                                    backgroundColor: "white",
 
-                        </button>
+                                    textAlign: "left"
+                                }}
+                            >
+
+                                {option}
+
+                            </button>
+                        )
                     )
                 )
             }
-
-            {/* NEXT BUTTON */}
-
-            <button
-
-                onClick={handleNext}
-
-                style={{
-                    marginTop: "30px",
-                    padding: "12px 25px",
-                    borderRadius: "10px",
-                    border: "none",
-                    backgroundColor: "#25D366",
-                    color: "white",
-                    cursor: "pointer"
-                }}
-            >
-
-                Next
-
-            </button>
 
         </div>
     );
