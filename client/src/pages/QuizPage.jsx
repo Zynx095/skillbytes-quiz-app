@@ -96,7 +96,9 @@ function QuizPage() {
         <div
             style={{
                 minHeight: "100vh",
-                backgroundColor: "#ece5dd",
+                backgroundImage:
+
+                    "url('https://imgs.search.brave.com/KsIfgGDCH2ue3e1kKHnL_8AMTbnCi4HcdGUpUmz8nsc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMzk3/NjE3NS5qcGc')",
 
                 backgroundSize: "cover",
 
